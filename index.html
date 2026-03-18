@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScoutForm Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --club-primary: #1a1a2e;
+    --club-accent: #e63946;
+    --club-light: #f4f1ee;
+    --white: #ffffff;
+    --gray-50: #f9f9f9;
+    --gray-100: #f0f0f0;
+    --gray-200: #e0e0e0;
+    --gray-400: #9e9e9e;
+    --gray-600: #616161;
+    --gray-800: #212121;
+    --radius: 6px;
+    --radius-lg: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --transition: 0.2s ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--club-primary);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background var(--transition);
+  }
+  .logo-mark svg { fill: white; }
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--gray-800);
+  }
+  .logo-text span {
+    color: var(--club-accent);
+    transition: color var(--transition);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Club color configurator in header */
+  .color-config {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    background: var(--gray-50);
+    font-size: 12px;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: border-color var(--transition);
+  }
+  .color-config:hover { border-color: var(--club-primary); }
+  .color-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--club-primary);
+    transition: background var(--transition);
+  }
+
+  /* ── LAYOUT ── */
+  .app-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── STEPS INDICATOR ── */
+  .steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2rem;
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-200);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-400);
+    transition: all var(--transition);
+    flex-shrink: 0;
+  }
+  .step.active .step-num {
+    background: var(--club-primary);
+    border-color: var(--club-primary);
+    color: white;
+  }
+  .step.done .step-num {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: white;
+  }
+  .step-label {
+    font-size: 13px;
+    color: var(--gray-400);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .step.active .step-label { color: var(--gray-800); }
+  .step.done .step-label { color: var(--gray-600); }
+  .step-connector {
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+    margin: 0 12px;
+    min-width: 20px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--gray-800);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 20px; height: 20px;
+    background: var(--club-primary);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background var(--transition);
+  }
+  .card-title .icon svg { fill: white; width: 11px; height: 11px; }
+  .card-body { padding: 1.5rem; }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 2px dashed var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    background: var(--gray-50);
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--club-primary);
+    background: white;
+  }
+  .upload-zone input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon {
+    width: 48px; height: 48px;
+    background: var(--gray-100);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    transition: background var(--transition);
+  }
+  .upload-zone:hover .upload-icon { background: var(--club-light); }
+  .upload-zone svg { fill: var(--gray-400); }
+  .upload-title { font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+  .upload-sub { font-size: 13px; color: var(--gray-400); }
+  .upload-formats {
+    margin-top: 12px;
+    display: flex; gap: 6px; justify-content: center;
+  }
+  .format-badge {
+    font-size: 11px; font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    letter-spacing: 0.04em;
+  }
+
+  .upload-success {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.25rem;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: var(--radius);
+    margin-top: 1rem;
+  }
+  .upload-success.visible { display: flex; }
+  .upload-success-icon { color: #22c55e; font-size: 18px; }
+  .upload-success-text { font-size: 13px; }
+  .upload-success-text strong { display: block; color: #15803d; font-weight: 600; }
+  .upload-success-text span { color: var(--gray-600); }
+
+  /* Template categories extracted */
+  .template-cats {
+    margin-top: 1.25rem;
+  }
+  .template-cats-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .cat-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cat-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-200);
+    background: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+    user-select: none;
+  }
+  .cat-chip.active {
+    border-color: var(--club-primary);
+    background: var(--club-primary);
+    color: white;
+  }
+  .cat-chip.active .cat-dot { background: white; }
+  .cat-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--club-accent);
+    flex-shrink: 0;
+    transition: background var(--transition);
+  }
+
+  /* ── FORM GRID ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-grid.full { grid-template-columns: 1fr; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .field.span-2 { grid-column: span 2; }
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--gray-800);
+    background: var(--white);
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--club-primary);
+    box-shadow: 0 0 0 3px rgba(26,26,46,0.08);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239e9e9e' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+
+  /* ── OBSERVATION BLOCKS ── */
+  .obs-block {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    transition: border-color var(--transition);
+  }
+  .obs-block:focus-within { border-color: var(--club-primary); }
+
+  .obs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .obs-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-800);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .obs-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--club-accent);
+    transition: background var(--transition);
+  }
+  .obs-body { padding: 12px 14px; }
+  .obs-body textarea {
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    color: var(--gray-800);
+    background: transparent;
+    min-height: 70px;
+    box-shadow: none;
+  }
+  .obs-body textarea:focus { box-shadow: none; border: none; }
+  .obs-char {
+    font-size: 11px;
+    color: var(--gray-400);
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  /* ── VOICE BUTTON ── */
+  .voice-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 16px;
+    border: 1px solid var(--gray-200);
+    background: white;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .voice-btn:hover { border-color: var(--club-accent); color: var(--club-accent); }
+  .voice-btn.recording {
+    background: #fef2f2;
+    border-color: var(--club-accent);
+    color: var(--club-accent);
+    animation: pulse-border 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.2); }
+    50% { box-shadow: 0 0 0 4px rgba(230,57,70,0); }
+  }
+  .voice-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .voice-btn.recording .voice-dot {
+    animation: blink 0.8s ease infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  /* ── VERDICTS ── */
+  .verdict-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .verdict-opt {
+    flex: 1;
+    padding: 10px 6px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all var(--transition);
+    color: var(--gray-400);
+    background: white;
+    user-select: none;
+  }
+  .verdict-opt:hover { border-color: var(--gray-400); color: var(--gray-800); }
+  .verdict-opt.selected {
+    border-color: var(--club-primary);
+    background: var(--club-primary);
+    color: white;
+  }
+  .verdict-opt.v-ja.selected { border-color: #22c55e; background: #22c55e; }
+  .verdict-opt.v-nee.selected { border-color: #ef4444; background: #ef4444; }
+  .verdict-opt.v-misschien.selected { border-color: #f59e0b; background: #f59e0b; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--club-primary);
+    color: white;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-800);
+  }
+  .btn-secondary:hover { background: var(--gray-200); }
+  .btn-accent {
+    background: var(--club-accent);
+    color: white;
+  }
+  .btn-accent:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn svg { fill: currentColor; flex-shrink: 0; }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+
+  /* ── PAGE SECTIONS ── */
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ── PAGE 1: Setup ── */
+  .setup-hero {
+    text-align: center;
+    padding: 2.5rem 1.5rem 2rem;
+  }
+  .setup-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    color: var(--gray-800);
+  }
+  .setup-hero h1 em { font-style: italic; color: var(--club-accent); transition: color var(--transition); }
+  .setup-hero p { color: var(--gray-600); font-size: 15px; }
+
+  /* Club setup row */
+  .club-setup-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto auto;
+    gap: 10px;
+    align-items: end;
+  }
+
+  .color-picker-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .color-swatch-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform var(--transition), border-color var(--transition);
+    flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.selected { border-color: var(--gray-800); }
+  .swatch-custom {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px dashed var(--gray-300);
+    cursor: pointer;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .swatch-custom input { width: 40px; height: 40px; margin: -6px; border: none; cursor: pointer; }
+
+  /* ── PAGE 2: Form ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 1.5rem 0 1rem;
+  }
+  .section-divider-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-400);
+    white-space: nowrap;
+  }
+  .section-divider-line { flex: 1; height: 1px; background: var(--gray-100); }
+
+  /* ── PAGE 3: Preview ── */
+  .preview-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 3px solid var(--club-primary);
+    background: var(--club-primary);
+    color: white;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .preview-club-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+  }
+  .preview-badge {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  .preview-meta {
+    font-size: 12px;
+    text-align: right;
+    opacity: 0.8;
+    line-height: 1.8;
+  }
+
+  .preview-body { padding: 1.5rem; }
+
+  .preview-section {
+    margin-bottom: 1.5rem;
+  }
+  .preview-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--club-accent);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .preview-field { }
+  .preview-field-label {
+    font-size: 11px;
+    color: var(--gray-400);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+  .preview-field-value {
+    font-size: 14px;
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+
+  .preview-obs {
+    background: var(--gray-50);
+    border-left: 3px solid var(--club-primary);
+    padding: 10px 12px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 10px;
+    transition: border-color var(--transition);
+  }
+  .preview-obs-label {
+    font-size: 11px;
+    color: var(--gray-400);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .preview-obs-text {
+    font-size: 14px;
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+
+  .verdict-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .verdict-ja { background: #f0fdf4; color: #15803d; }
+  .verdict-nee { background: #fef2f2; color: #dc2626; }
+  .verdict-misschien { background: #fffbeb; color: #b45309; }
+  .verdict-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+  /* ── COLOR MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    width: 320px;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .modal-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .modal-swatch {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all var(--transition);
+  }
+  .modal-swatch:hover { transform: scale(1.1); }
+  .modal-swatch.selected { border-color: var(--gray-800); }
+  .modal-color-input {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .modal-color-input input[type="color"] {
+    width: 40px; height: 36px;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 2px;
+  }
+  .modal-color-input input[type="text"] {
+    font-size: 13px; padding: 8px 10px;
+  }
+
+  /* ── MASTER VOICE ── */
+  .master-voice-card {
+    border: 2px solid var(--gray-200);
+    transition: border-color var(--transition);
+    margin-bottom: 0;
+  }
+  .master-voice-card.recording-active { border-color: var(--club-accent); box-shadow: 0 0 0 4px rgba(230,57,70,0.08); }
+  .master-voice-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .master-voice-left { flex: 1; }
+  .master-voice-title {
+    font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--gray-800);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .master-voice-title svg { color: var(--club-primary); flex-shrink: 0; transition: color var(--transition); }
+  .master-voice-sub { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+  .master-voice-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 20px; border-radius: var(--radius-lg); border: 2px solid var(--gray-200);
+    background: white; cursor: pointer; transition: all var(--transition);
+    font-family: 'DM Sans', sans-serif; flex-shrink: 0; min-width: 90px;
+  }
+  .master-voice-btn:hover { border-color: var(--club-primary); background: var(--club-light); }
+  .master-voice-btn.recording { border-color: var(--club-accent); background: #fef2f2; animation: pulse-card 1.4s ease-in-out infinite; }
+  @keyframes pulse-card { 0%, 100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.15); } 50% { box-shadow: 0 0 0 8px rgba(230,57,70,0); } }
+  .master-mic-icon {
+    width: 44px; height: 44px; border-radius: 50%; background: var(--gray-100);
+    display: flex; align-items: center; justify-content: center; transition: background var(--transition);
+  }
+  .master-voice-btn:hover .master-mic-icon { background: var(--club-primary); }
+  .master-voice-btn:hover .master-mic-icon svg { stroke: white; }
+  .master-voice-btn.recording .master-mic-icon { background: var(--club-accent); animation: mic-pulse 0.8s ease-in-out infinite alternate; }
+  .master-voice-btn.recording .master-mic-icon svg { stroke: white; }
+  @keyframes mic-pulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+  .master-btn-label { font-size: 12px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.06em; }
+  .master-voice-btn.recording .master-btn-label { color: var(--club-accent); }
+  .transcript-box { margin-top: 1.25rem; padding: 12px 14px; background: var(--gray-50); border-radius: var(--radius); border: 1px solid var(--gray-200); }
+  .transcript-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-400); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .transcript-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--club-accent); animation: blink 0.8s ease infinite; }
+  .transcript-text { font-size: 14px; color: var(--gray-800); line-height: 1.6; min-height: 40px; max-height: 120px; overflow-y: auto; }
+  .ai-status { margin-top: 1.25rem; padding: 14px; background: #f0f4ff; border-radius: var(--radius); border: 1px solid #c7d7ff; }
+  .ai-status-inner { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #3b5bdb; font-weight: 500; }
+  .ai-spinner { width: 18px; height: 18px; border: 2px solid #c7d7ff; border-top-color: #3b5bdb; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .dist-result { margin-top: 1.25rem; padding: 14px; background: #f0fdf4; border-radius: var(--radius); border: 1px solid #bbf7d0; }
+  .dist-result-label { font-size: 12px; font-weight: 600; color: #15803d; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .dist-chip { background: white; border: 1px solid #bbf7d0; border-radius: var(--radius); padding: 10px 12px; margin-bottom: 8px; }
+  .dist-chip-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .dist-chip-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #15803d; }
+  .dist-chip-text { font-size: 13px; color: var(--gray-800); line-height: 1.5; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--gray-800);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 300;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.visible { transform: translateX(-50%) translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    .field.span-2 { grid-column: span 1; }
+    .club-setup-row { grid-template-columns: 1fr 1fr; }
+    .preview-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-mark" id="logoMark">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1L10.5 6H15L11 9.5L12.5 15L8 11.5L3.5 15L5 9.5L1 6H5.5L8 1Z"/></svg>
+    </div>
+    <span class="logo-text">Scout<span id="logoAccent">Form</span> Pro</span>
+  </div>
+  <div class="header-right">
+    <div class="color-config" onclick="openColorModal()">
+      <div class="color-dot" id="headerDot"></div>
+      <span>Clubkleuren</span>
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="app-wrapper">
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step active" id="step1" onclick="goToPage(1)">
+      <div class="step-num">1</div>
+      <span class="step-label">Club setup</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step" id="step2" onclick="goToPage(2)">
+      <div class="step-num">2</div>
+      <span class="step-label">Rapport invullen</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step" id="step3" onclick="goToPage(3)">
+      <div class="step-num">3</div>
+      <span class="step-label">Voorbeeld & export</span>
+    </div>
+  </div>
+
+  <!-- PAGE 1: CLUB SETUP -->
+  <div class="page active" id="page1">
+
+    <div class="setup-hero">
+      <h1>Jouw club.<br><em>Jouw</em> scoutingformulier.</h1>
+      <p>Stel je clubprofiel in en upload je eigen evaluatietemplate.</p>
+    </div>
+
+    <!-- Club info -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon"><svg viewBox="0 0 12 12"><path d="M6 0L7.5 4.5H12L8.5 7L10 12L6 9L2 12L3.5 7L0 4.5H4.5L6 0Z"/></svg></div>
+          Clubprofiel
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="field">
+            <label>Clubnaam</label>
+            <input type="text" id="clubNaam" placeholder="bijv. FC Amsterdam" oninput="updateClubName()">
+          </div>
+          <div class="field">
+            <label>Scoutingcoördinator</label>
+            <input type="text" id="coordNaam" placeholder="bijv. Jan de Vries">
+          </div>
+          <div class="field">
+            <label>Competitieniveau</label>
+            <select id="competitieNiveau">
+              <option value="">Selecteer niveau</option>
+              <option>Eredivisie</option>
+              <option>Keuken Kampioen Divisie</option>
+              <option>Derde Divisie</option>
+              <option>Hoofdklasse</option>
+              <option>Jeugdopleiding</option>
+              <option>Anders</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Seizoen</label>
+            <input type="text" id="seizoen" placeholder="bijv. 2025/2026">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Template upload -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon"><svg viewBox="0 0 12 12"><path d="M2 0h6l4 4v8H2V0zm6 0v4h4"/></svg></div>
+          Scoutingtemplate
+        </div>
+        <span style="font-size:12px;color:var(--gray-400)">Optioneel</span>
+      </div>
+      <div class="card-body">
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="templateFile" accept=".pdf,.doc,.docx" onchange="handleFileUpload(event)">
+          <div class="upload-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 0v6h6M12 18v-6M9 15l3-3 3 3"/></svg>
+          </div>
+          <div class="upload-title">Upload je scoutingsformulier</div>
+          <div class="upload-sub">Sleep het bestand hiernaartoe of klik om te bladeren</div>
+          <div class="upload-formats">
+            <span class="format-badge">PDF</span>
+            <span class="format-badge">DOC</span>
+            <span class="format-badge">DOCX</span>
+          </div>
+        </div>
+
+        <div class="upload-success" id="uploadSuccess">
+          <div class="upload-success-icon">✓</div>
+          <div class="upload-success-text">
+            <strong id="uploadFileName">formulier.pdf</strong>
+            <span id="uploadAnalysis">Categorieën worden geëxtraheerd via AI...</span>
+          </div>
+        </div>
+
+        <div class="template-cats" id="templateCats" style="display:none">
+          <div class="template-cats-label">Geëxtraheerde evaluatiecategorieën — klik om te activeren</div>
+          <div class="cat-list" id="catList"></div>
+        </div>
+
+        <!-- Default categories if no upload -->
+        <div id="defaultCats" style="margin-top:1.25rem">
+          <div class="template-cats-label">Standaard categorieën (actief)</div>
+          <div class="cat-list" id="defaultCatList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goToPage(2)">
+        Doorgaan naar rapport
+        <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: RAPPORT FORM -->
+  <div class="page" id="page2">
+
+    <!-- Wedstrijdcontext -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="none" stroke="white" stroke-width="1.5"/><path d="M6 3v3l2 2"/></svg></div>
+          Wedstrijdcontext
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid cols-3">
+          <div class="field">
+            <label>Datum</label>
+            <input type="date" id="wedDatum">
+          </div>
+          <div class="field">
+            <label>Thuis</label>
+            <input type="text" id="wedThuis" placeholder="bijv. Ajax JO17">
+          </div>
+          <div class="field">
+            <label>Uit</label>
+            <input type="text" id="wedUit" placeholder="bijv. PSV JO17">
+          </div>
+          <div class="field">
+            <label>Competitie / niveau</label>
+            <input type="text" id="wedComp" placeholder="bijv. Eredivisie Jeugd">
+          </div>
+          <div class="field">
+            <label>Stand (HT / FT)</label>
+            <input type="text" id="wedStand" placeholder="bijv. 1-0 / 2-1">
+          </div>
+          <div class="field">
+            <label>Scout</label>
+            <input type="text" id="wedScout" placeholder="Naam scout">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spelersinformatie -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon"><svg viewBox="0 0 12 12"><circle cx="6" cy="3" r="2.5" fill="none" stroke="white" stroke-width="1.5"/><path d="M1 11c0-2.8 2.2-5 5-5s5 2.2 5 5" fill="none" stroke="white" stroke-width="1.5"/></svg></div>
+          Spelersinformatie
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid cols-3">
+          <div class="field span-2">
+            <label>Volledige naam</label>
+            <input type="text" id="spelNaam" placeholder="Voor- en achternaam">
+          </div>
+          <div class="field">
+            <label>Geboortedatum</label>
+            <input type="date" id="spelGeb">
+          </div>
+          <div class="field">
+            <label>Huidige club</label>
+            <input type="text" id="spelClub" placeholder="bijv. Ajax JO17">
+          </div>
+          <div class="field">
+            <label>Positie</label>
+            <select id="spelPositie">
+              <option value="">Selecteer positie</option>
+              <option>Keeper</option>
+              <option>Rechtsback</option>
+              <option>Centrumverdediger</option>
+              <option>Linksback</option>
+              <option>Rechtsbuiten (defensief)</option>
+              <option>Centrale middenvelder</option>
+              <option>Linksbuiten (defensief)</option>
+              <option>Aanvallende middenvelder</option>
+              <option>Rechtsbuiten</option>
+              <option>Spits</option>
+              <option>Linksbuiten</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Nationaliteit</label>
+            <input type="text" id="spelNat" placeholder="bijv. Nederlands">
+          </div>
+          <div class="field">
+            <label>Gespeelde minuten</label>
+            <input type="number" id="spelMin" placeholder="bijv. 78" min="0" max="120">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MASTER VOICE CARD -->
+    <div class="card master-voice-card" id="masterVoiceCard">
+      <div class="card-body" style="padding: 1.75rem;">
+        <div class="master-voice-inner">
+          <div class="master-voice-left">
+            <div class="master-voice-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              Alles in één keer inspreken
+            </div>
+            <div class="master-voice-sub">Spreek je volledige observatie in. De AI verdeelt dit automatisch over de juiste categorieën.</div>
+          </div>
+          <button class="master-voice-btn" id="masterVoiceBtn" onclick="toggleMasterVoice()">
+            <div class="master-mic-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+            </div>
+            <span class="master-btn-label">Inspreken</span>
+          </button>
+        </div>
+
+        <!-- Live transcript -->
+        <div class="transcript-box" id="transcriptBox" style="display:none">
+          <div class="transcript-label">
+            <span class="transcript-dot" id="transcriptDot"></span>
+            Live transcript
+          </div>
+          <div class="transcript-text" id="transcriptText">Luisteren...</div>
+        </div>
+
+        <!-- AI processing status -->
+        <div class="ai-status" id="aiStatus" style="display:none">
+          <div class="ai-status-inner">
+            <div class="ai-spinner"></div>
+            <span id="aiStatusText">AI verdeelt observaties over categorieën...</span>
+          </div>
+        </div>
+
+        <!-- Result preview chips -->
+        <div class="dist-result" id="distResult" style="display:none">
+          <div class="dist-result-label">Verdeeld over categorieën — controleer en pas aan:</div>
+          <div id="distChips"></div>
+          <div style="display:flex; gap:8px; margin-top:12px; justify-content:flex-end">
+            <button class="btn btn-secondary" style="font-size:13px; padding:7px 14px" onclick="clearMasterVoice()">Opnieuw inspreken</button>
+            <button class="btn btn-primary" style="font-size:13px; padding:7px 14px" onclick="applyDistribution()">
+              ✓ Categorieën invullen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Observaties per categorie -->
+    <div class="section-divider">
+      <div class="section-divider-label">Observaties per categorie</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div id="obsBlocks"></div>
+
+    <!-- Eindoordeel -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="icon"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+          Eindoordeel
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="field" style="margin-bottom:1rem">
+          <label>Aanbeveling</label>
+          <div class="verdict-row">
+            <div class="verdict-opt v-ja" onclick="setVerdict('Ja — oppakken')" id="vJa">✓ Ja — oppakken</div>
+            <div class="verdict-opt v-misschien" onclick="setVerdict('Misschien — verder volgen')" id="vMisschien">~ Misschien</div>
+            <div class="verdict-opt v-nee" onclick="setVerdict('Nee — niet geschikt')" id="vNee">✗ Nee — niet geschikt</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Toelichting eindoordeel</label>
+          <div class="obs-block">
+            <div class="obs-body">
+              <textarea id="eindToelichting" placeholder="Geef een samenvattende toelichting op je eindoordeel..." oninput="updateCharCount(this, 'eindCount')"></textarea>
+              <div class="obs-char" id="eindCount">0 tekens</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToPage(1)">← Terug</button>
+      <button class="btn btn-primary" onclick="buildPreview()">
+        Voorbeeld bekijken
+        <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: PREVIEW & EXPORT -->
+  <div class="page" id="page3">
+
+    <div class="card" id="previewCard">
+      <!-- Dynamically built -->
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToPage(2)">← Bewerken</button>
+      <button class="btn btn-secondary" onclick="printReport()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 1h8v3H3zm-1 3h10v6H3V4zm2 8h6v1H4zM2 6h1v2H2zm9 0h1v2h-1z"/></svg>
+        Afdrukken
+      </button>
+      <button class="btn btn-accent" onclick="exportPDF()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M2 1h7l3 3v9H2V1zm7 0v3h3M5 8h4M5 10h4M5 6h2"/></svg>
+        Exporteer PDF
+      </button>
+    </div>
+
+    <div style="text-align:center; margin-top:1rem">
+      <button class="btn btn-secondary" onclick="newReport()">+ Nieuw rapport voor dezelfde club</button>
+    </div>
+  </div>
+
+</div><!-- end app-wrapper -->
+
+<!-- COLOR MODAL -->
+<div class="modal-overlay" id="colorModal">
+  <div class="modal">
+    <h3>Clubkleuren instellen</h3>
+    <div class="modal-swatches" id="modalSwatches"></div>
+    <div class="modal-color-input">
+      <input type="color" id="customColorPicker" oninput="applyColor(this.value)">
+      <input type="text" id="customColorHex" placeholder="#1a1a2e" oninput="applyColorFromHex(this.value)" style="flex:1">
+    </div>
+    <div style="display:flex; gap:8px; justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="closeColorModal()">Annuleren</button>
+      <button class="btn btn-primary" onclick="saveColor()">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+const state = {
+  page: 1,
+  clubColor: '#1a1a2e',
+  clubAccent: '#e63946',
+  clubNaam: '',
+  activeCategories: [],
+  verdict: '',
+  extractedCats: null,  // null = gebruik DEFAULT_CATS; array = clubspecifieke cats van API
+};
+
+const DEFAULT_CATS = [
+  { id: 'techniek', label: 'Techniek', placeholder: 'Balbeheersing, passing, eerste aanname, 1-tegen-1, afwerking...' },
+  { id: 'tactiek', label: 'Tactisch inzicht', placeholder: 'Positiespel, ruimtegebruik, duels aangaan/vermijden, pressing...' },
+  { id: 'fysiek', label: 'Fysieke kwaliteiten', placeholder: 'Snelheid, kracht, duurvermogen, wendbaarheid...' },
+  { id: 'mentaal', label: 'Mentale kwaliteiten', placeholder: 'Strijdlust, leiderschap, communicatie, reactie op tegenslag...' },
+  { id: 'potentieel', label: 'Potentieel & ontwikkeling', placeholder: 'Leerbaarheid, groeimarge, unieke kwaliteit die opvalt...' },
+];
+
+const CLUB_PRESETS = [
+  '#1a1a2e','#dc143c','#003087','#d4af37','#1a472a',
+  '#ff6900','#6b2d8b','#00529b','#c8102e','#0067b1',
+];
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderDefaultCats();
+  renderColorModal();
+  setTodayDate();
+  applyColor(state.clubColor);
+});
+
+function setTodayDate() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('wedDatum').value = today;
+}
+
+// ── NAVIGATION ──
+function goToPage(n) {
+  if (n === 3 && state.page < 2) return;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + n).classList.add('active');
+
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i + 1 === n) s.classList.add('active');
+    else if (i + 1 < n) s.classList.add('done');
+  });
+  state.page = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── CATEGORIES ──
+function renderDefaultCats() {
+  const list = document.getElementById('defaultCatList');
+  state.activeCategories = DEFAULT_CATS.map(c => c.id);
+  list.innerHTML = DEFAULT_CATS.map(cat => `
+    <div class="cat-chip active" id="dc-${cat.id}" onclick="toggleDefaultCat('${cat.id}')">
+      <div class="cat-dot"></div>${cat.label}
+    </div>
+  `).join('');
+  renderObsBlocks();
+}
+
+function toggleDefaultCat(id) {
+  const idx = state.activeCategories.indexOf(id);
+  if (idx === -1) state.activeCategories.push(id);
+  else state.activeCategories.splice(idx, 1);
+  document.getElementById('dc-' + id).classList.toggle('active', state.activeCategories.includes(id));
+  renderObsBlocks();
+}
+
+function renderObsBlocks() {
+  const cats = state.extractedCats
+    ? state.extractedCats.filter(c => state.activeCategories.includes(c.id))
+    : DEFAULT_CATS.filter(c => state.activeCategories.includes(c.id));
+  renderObsBlocksFromCats(cats);
+}
+
+function renderObsBlocksFromCats(cats) {
+  const container = document.getElementById('obsBlocks');
+  container.innerHTML = cats.map(cat => `
+    <div class="obs-block">
+      <div class="obs-header">
+        <div class="obs-title">
+          <div class="obs-dot"></div>
+          ${cat.label}
+        </div>
+      </div>
+      <div class="obs-body">
+        <textarea id="obs-${cat.id}" placeholder="${cat.description || cat.placeholder || 'Observaties voor ' + cat.label + '...'}" oninput="updateCharCount(this, 'char-${cat.id}')"></textarea>
+        <div class="obs-char" id="char-${cat.id}">0 tekens</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── CHAR COUNTER ──
+function updateCharCount(el, countId) {
+  document.getElementById(countId).textContent = el.value.length + ' tekens';
+}
+
+// ── VERDICT ──
+function setVerdict(v) {
+  state.verdict = v;
+  document.querySelectorAll('.verdict-opt').forEach(el => el.classList.remove('selected'));
+  if (v === 'Ja — oppakken') document.getElementById('vJa').classList.add('selected');
+  else if (v === 'Misschien — verder volgen') document.getElementById('vMisschien').classList.add('selected');
+  else if (v === 'Nee — niet geschikt') document.getElementById('vNee').classList.add('selected');
+}
+
+// ── VOICE ──
+let activeRecognition = null;
+let activeBtn = null;
+
+function toggleVoice(fieldId, btnId) {
+  const btn = document.getElementById(btnId);
+  const field = document.getElementById(fieldId);
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    showToast('Spraakherkenning niet beschikbaar in deze browser');
+    return;
+  }
+
+  if (activeRecognition) {
+    activeRecognition.stop();
+    activeRecognition = null;
+    if (activeBtn) { activeBtn.classList.remove('recording'); activeBtn.innerHTML = '<div class="voice-dot"></div> Inspreken'; }
+    if (activeBtn === btn) { activeBtn = null; return; }
+  }
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SR();
+  recognition.lang = 'nl-NL';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  const baseVal = field.value;
+  recognition.onresult = e => {
+    let interim = '';
+    let final = baseVal;
+    for (let i = 0; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+      else interim += e.results[i][0].transcript;
+    }
+    field.value = final + interim;
+    field.dispatchEvent(new Event('input'));
+  };
+
+  recognition.onerror = () => {
+    btn.classList.remove('recording');
+    btn.innerHTML = '<div class="voice-dot"></div> Inspreken';
+    activeRecognition = null; activeBtn = null;
+  };
+
+  recognition.onend = () => {
+    if (activeBtn === btn) {
+      btn.classList.remove('recording');
+      btn.innerHTML = '<div class="voice-dot"></div> Inspreken';
+      activeRecognition = null; activeBtn = null;
+    }
+  };
+
+  recognition.start();
+  activeRecognition = recognition;
+  activeBtn = btn;
+  btn.classList.add('recording');
+  btn.innerHTML = '<div class="voice-dot"></div> Opnemen...';
+}
+
+// ── FILE UPLOAD ──
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  document.getElementById('uploadSuccess').classList.add('visible');
+  document.getElementById('uploadFileName').textContent = file.name;
+  document.getElementById('uploadAnalysis').textContent = 'Formulier wordt ingelezen...';
+
+  // Lees bestand als base64
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const base64 = ev.target.result.split(',')[1];
+
+    document.getElementById('uploadAnalysis').textContent = 'AI analyseert categorieën...';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/extract-template`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileBase64: base64,
+          fileName: file.name,
+          mimeType: file.type
+        })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      if (!data.success || !data.categories || data.categories.length === 0) {
+        throw new Error('Geen categorieën gevonden');
+      }
+
+      // Vul clubnaam in als gevonden
+      if (data.clubNaam && !document.getElementById('clubNaam').value) {
+        document.getElementById('clubNaam').value = data.clubNaam;
+        updateClubName();
+      }
+
+      document.getElementById('uploadAnalysis').textContent =
+        `✓ ${data.categories.length} categorieën gevonden uit ${file.name}`;
+
+      document.getElementById('defaultCats').style.display = 'none';
+      showExtractedCats(data.categories);
+
+    } catch (err) {
+      console.error('Template extract error:', err);
+      document.getElementById('uploadAnalysis').textContent =
+        'Kon categorieën niet extraheren — standaardcategorieën worden gebruikt';
+      // Fallback naar standaard
+      showToast('Formulier niet leesbaar — standaard categorieën actief');
+    }
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function showExtractedCats(apiCategories) {
+  const container = document.getElementById('templateCats');
+  const list = document.getElementById('catList');
+
+  // Gebruik API-categorieën als beschikbaar, anders standaard
+  const cats = apiCategories || DEFAULT_CATS;
+
+  // Sla de actieve categorieën op — overschrijf standaard met clubspecifieke
+  state.extractedCats = cats;
+  state.activeCategories = cats.map(c => c.id);
+
+  list.innerHTML = cats.map(cat => `
+    <div class="cat-chip active" id="ec-${cat.id}" onclick="toggleExtractedCat('${cat.id}')">
+      <div class="cat-dot"></div>${cat.label}
+    </div>
+  `).join('');
+
+  container.style.display = 'block';
+  renderObsBlocksFromCats(cats);
+}
+
+function toggleExtractedCat(id) {
+  const idx = state.activeCategories.indexOf(id);
+  if (idx === -1) state.activeCategories.push(id);
+  else state.activeCategories.splice(idx, 1);
+  document.getElementById('ec-' + id).classList.toggle('active', state.activeCategories.includes(id));
+  renderObsBlocks();
+}
+
+// ── CLUB NAME ──
+function updateClubName() {
+  state.clubNaam = document.getElementById('clubNaam').value;
+}
+
+// ── PREVIEW ──
+function buildPreview() {
+  const card = document.getElementById('previewCard');
+  const speler = document.getElementById('spelNaam').value || '—';
+  const positie = document.getElementById('spelPositie').value || '—';
+  const spelClub = document.getElementById('spelClub').value || '—';
+  const geb = document.getElementById('spelGeb').value || '—';
+  const nat = document.getElementById('spelNat').value || '—';
+  const min = document.getElementById('spelMin').value || '—';
+
+  const thuis = document.getElementById('wedThuis').value || '—';
+  const uit = document.getElementById('wedUit').value || '—';
+  const datum = document.getElementById('wedDatum').value || '—';
+  const comp = document.getElementById('wedComp').value || '—';
+  const stand = document.getElementById('wedStand').value || '—';
+  const scout = document.getElementById('wedScout').value || document.getElementById('coordNaam').value || '—';
+
+  const club = document.getElementById('clubNaam').value || 'Scoutingrapport';
+  const niveau = document.getElementById('competitieNiveau').value || '';
+  const seizoen = document.getElementById('seizoen').value || '';
+
+  const eindText = document.getElementById('eindToelichting').value || '';
+  const cats = DEFAULT_CATS.filter(c => state.activeCategories.includes(c.id));
+
+  let verdictHTML = '';
+  if (state.verdict) {
+    const cls = state.verdict.startsWith('Ja') ? 'verdict-ja' : state.verdict.startsWith('Nee') ? 'verdict-nee' : 'verdict-misschien';
+    verdictHTML = `<div class="verdict-display ${cls}"><div class="verdict-dot"></div>${state.verdict}</div>`;
+  }
+
+  let obsHTML = cats.map(cat => {
+    const text = document.getElementById('obs-' + cat.id)?.value || '';
+    if (!text) return '';
+    return `
+      <div class="preview-obs">
+        <div class="preview-obs-label">${cat.label}</div>
+        <div class="preview-obs-text">${text}</div>
+      </div>
+    `;
+  }).filter(Boolean).join('');
+
+  card.innerHTML = `
+    <div class="preview-header" style="background:var(--club-primary)">
+      <div>
+        <div class="preview-club-name">${club}</div>
+        <div class="preview-badge">Scoutingrapport${niveau ? ' · ' + niveau : ''}${seizoen ? ' · ' + seizoen : ''}</div>
+      </div>
+      <div class="preview-meta">
+        ${datum}<br>
+        Scout: ${scout}
+      </div>
+    </div>
+    <div class="preview-body">
+      <div class="preview-section">
+        <div class="preview-section-title">Wedstrijdcontext</div>
+        <div class="preview-grid">
+          <div class="preview-field"><div class="preview-field-label">Wedstrijd</div><div class="preview-field-value">${thuis} vs ${uit}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Competitie</div><div class="preview-field-value">${comp}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Stand</div><div class="preview-field-value">${stand}</div></div>
+        </div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-section-title">Spelersinformatie</div>
+        <div class="preview-grid">
+          <div class="preview-field"><div class="preview-field-label">Naam</div><div class="preview-field-value">${speler}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Positie</div><div class="preview-field-value">${positie}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Club</div><div class="preview-field-value">${spelClub}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Geboortedatum</div><div class="preview-field-value">${geb}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Nationaliteit</div><div class="preview-field-value">${nat}</div></div>
+          <div class="preview-field"><div class="preview-field-label">Min. gespeeld</div><div class="preview-field-value">${min}</div></div>
+        </div>
+      </div>
+      ${obsHTML ? `<div class="preview-section"><div class="preview-section-title">Observaties</div>${obsHTML}</div>` : ''}
+      <div class="preview-section">
+        <div class="preview-section-title">Eindoordeel</div>
+        ${verdictHTML}
+        ${eindText ? `<div style="margin-top:10px"><div class="preview-obs"><div class="preview-obs-label">Toelichting</div><div class="preview-obs-text">${eindText}</div></div></div>` : ''}
+      </div>
+    </div>
+  `;
+
+  goToPage(3);
+}
+
+// ── EXPORT ──
+function printReport() {
+  window.print();
+}
+
+function exportPDF() {
+  showToast('PDF export wordt voorbereid...');
+  setTimeout(() => {
+    window.print();
+  }, 300);
+}
+
+function newReport() {
+  document.querySelectorAll('input[type="text"], input[type="date"], input[type="number"], textarea').forEach(el => {
+    if (!['clubNaam','coordNaam','competitieNiveau','seizoen'].includes(el.id)) el.value = '';
+  });
+  document.querySelectorAll('.verdict-opt').forEach(el => el.classList.remove('selected'));
+  state.verdict = '';
+  setTodayDate();
+  goToPage(2);
+  showToast('Nieuw rapport gestart');
+}
+
+// ── COLOR SYSTEM ──
+function applyColor(hex) {
+  state.clubColor = hex;
+  document.documentElement.style.setProperty('--club-primary', hex);
+  document.getElementById('logoMark').style.background = hex;
+  document.getElementById('headerDot').style.background = hex;
+  document.getElementById('customColorPicker').value = hex;
+  document.getElementById('customColorHex').value = hex;
+  // Update modal selected state
+  document.querySelectorAll('.modal-swatch').forEach(s => {
+    s.classList.toggle('selected', s.dataset.color === hex);
+  });
+}
+
+function applyColorFromHex(val) {
+  if (/^#[0-9a-f]{6}$/i.test(val)) applyColor(val);
+}
+
+function renderColorModal() {
+  const container = document.getElementById('modalSwatches');
+  container.innerHTML = CLUB_PRESETS.map(c => `
+    <div class="modal-swatch${c === state.clubColor ? ' selected' : ''}"
+         style="background:${c}"
+         data-color="${c}"
+         onclick="applyColor('${c}')"
+         title="${c}"></div>
+  `).join('');
+}
+
+function openColorModal() {
+  document.getElementById('colorModal').classList.add('open');
+  renderColorModal();
+}
+function closeColorModal() { document.getElementById('colorModal').classList.remove('open'); }
+function saveColor() { closeColorModal(); showToast('Clubkleur opgeslagen'); }
+
+// Click outside modal
+document.getElementById('colorModal').addEventListener('click', function(e) {
+  if (e.target === this) closeColorModal();
+});
+
+// ── MASTER VOICE + STAPELMETHODE + AI DISTRIBUTION ──
+let masterRecognition = null;
+let currentTranscript = '';   // transcript van huidige opname
+let transcriptStack = [];     // gestapelde rondes
+let pendingDistribution = {};
+
+// Bepaal API base URL: lokaal of Vercel
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000'
+  : '';
+
+function toggleMasterVoice() {
+  const btn = document.getElementById('masterVoiceBtn');
+  const card = document.getElementById('masterVoiceCard');
+
+  if (masterRecognition) {
+    // Stop opname → voeg toe aan stapel
+    masterRecognition._stopped = true;
+    masterRecognition.stop();
+    masterRecognition = null;
+    btn.classList.remove('recording');
+    btn.querySelector('.master-btn-label').textContent = 'Nog een ronde';
+    card.classList.remove('recording-active');
+
+    if (currentTranscript.trim().length > 5) {
+      transcriptStack.push(currentTranscript.trim());
+      currentTranscript = '';
+      updateStackUI();
+    }
+    return;
+  }
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    showToast('Spraakherkenning niet beschikbaar — gebruik Chrome');
+    return;
+  }
+
+  currentTranscript = '';
+  document.getElementById('transcriptBox').style.display = 'block';
+  document.getElementById('transcriptText').textContent = 'Luisteren...';
+  document.getElementById('transcriptDot').style.display = 'inline-block';
+  document.getElementById('aiStatus').style.display = 'none';
+  document.getElementById('distResult').style.display = 'none';
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const r = new SR();
+  r.lang = 'nl-NL';
+  r.continuous = true;
+  r.interimResults = true;
+  r._stopped = false;
+
+  r.onresult = e => {
+    let finals = '';
+    let interim = '';
+    for (let i = 0; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finals += e.results[i][0].transcript + ' ';
+      else interim += e.results[i][0].transcript;
+    }
+    currentTranscript = finals;
+    // Toon alles: vorige rondes + huidige
+    const prevText = transcriptStack.length > 0
+      ? transcriptStack.map((t, i) => `[${i+1}] ${t}`).join(' | ') + '\n[' + (transcriptStack.length+1) + '] '
+      : '';
+    document.getElementById('transcriptText').textContent = prevText + (finals + interim) || 'Luisteren...';
+  };
+
+  r.onerror = () => {
+    btn.classList.remove('recording');
+    btn.querySelector('.master-btn-label').textContent = transcriptStack.length > 0 ? 'Nog een ronde' : 'Inspreken';
+    card.classList.remove('recording-active');
+    masterRecognition = null;
+    showToast('Microfoonfout — controleer browserrechten');
+  };
+
+  r.onend = () => {
+    if (!r._stopped && masterRecognition) {
+      try { r.start(); } catch(e) {}
+    }
+  };
+
+  r.start();
+  masterRecognition = r;
+  btn.classList.add('recording');
+  btn.querySelector('.master-btn-label').textContent = 'Stop';
+  card.classList.add('recording-active');
+}
+
+function updateStackUI() {
+  // Toon stapel status + knop om AI te triggeren
+  const tText = document.getElementById('transcriptText');
+  if (transcriptStack.length > 0) {
+    tText.innerHTML = transcriptStack.map((t, i) =>
+      `<div style="margin-bottom:6px"><span style="font-size:11px;font-weight:700;color:var(--gray-400)">RONDE ${i+1}</span><br>${t}</div>`
+    ).join('');
+
+    // Toon "Verwerk met AI" knop als die er nog niet is
+    if (!document.getElementById('processStackBtn')) {
+      const btn = document.createElement('div');
+      btn.style.cssText = 'margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap';
+      btn.innerHTML = `
+        <button id="processStackBtn" class="btn btn-primary" style="font-size:13px;padding:7px 16px" onclick="distributeWithAI()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Verwerk ${transcriptStack.length} ronde${transcriptStack.length > 1 ? 's' : ''} met AI
+        </button>
+        <button class="btn btn-secondary" style="font-size:13px;padding:7px 16px" onclick="clearMasterVoice()">Wis alles</button>
+        <span style="font-size:12px;color:var(--gray-400)">${transcriptStack.length} ronde${transcriptStack.length > 1 ? 's' : ''} gestapeld</span>
+      `;
+      document.getElementById('transcriptBox').appendChild(btn);
+    } else {
+      // Update button text
+      document.getElementById('processStackBtn').innerHTML = `
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Verwerk ${transcriptStack.length} ronde${transcriptStack.length > 1 ? 's' : ''} met AI
+      `;
+    }
+
+    const masterBtn = document.getElementById('masterVoiceBtn');
+    masterBtn.querySelector('.master-btn-label').textContent = 'Nog een ronde';
+  }
+}
+
+async function distributeWithAI() {
+  // Voeg eventuele lopende transcript ook toe
+  if (currentTranscript.trim().length > 5) {
+    transcriptStack.push(currentTranscript.trim());
+    currentTranscript = '';
+  }
+
+  if (transcriptStack.length === 0) {
+    showToast('Geen transcript om te verwerken');
+    return;
+  }
+
+  const cats = state.activeCategories.map(id => {
+    const found = DEFAULT_CATS.find(c => c.id === id);
+    return found || null;
+  }).filter(Boolean);
+
+  document.getElementById('aiStatus').style.display = 'block';
+  document.getElementById('aiStatusText').textContent = `AI verdeelt ${transcriptStack.length} ronde${transcriptStack.length > 1 ? 's' : ''} over ${cats.length} categorieën...`;
+
+  // Verberg de "Verwerk" knop
+  const processBtn = document.getElementById('processStackBtn');
+  if (processBtn) processBtn.disabled = true;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/scout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        transcripts: transcriptStack,
+        categories: cats.map(c => ({ id: c.id, label: c.label }))
+      })
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Onbekende fout');
+
+    pendingDistribution = data.distribution;
+    showDistributionResult(pendingDistribution, cats);
+
+  } catch (err) {
+    console.error('AI distribute error:', err);
+    // Fallback: alles onverdeeld in eerste categorie
+    pendingDistribution = {};
+    if (cats[0]) pendingDistribution[cats[0].id] = transcriptStack.join(' ');
+    showDistributionResult(pendingDistribution, cats);
+    showToast('API niet bereikbaar — transcript onverdeeld geplaatst');
+  }
+
+  document.getElementById('aiStatus').style.display = 'none';
+}
+
+function showDistributionResult(parsed, cats) {
+  const container = document.getElementById('distChips');
+  const filled = cats.filter(c => parsed[c.id] && parsed[c.id].trim());
+
+  container.innerHTML = filled.length === 0
+    ? '<div style="font-size:13px;color:var(--gray-400)">Geen specifieke categorieën herkend — voeg handmatig toe hieronder.</div>'
+    : filled.map(cat => `
+        <div class="dist-chip">
+          <div class="dist-chip-header">
+            <div class="dist-chip-label">${cat.label}</div>
+          </div>
+          <div class="dist-chip-text">${parsed[cat.id]}</div>
+        </div>
+      `).join('');
+
+  document.getElementById('distResult').style.display = 'block';
+  showToast(`✓ ${filled.length} categorie${filled.length !== 1 ? 'ën' : ''} herkend`);
+}
+
+function applyDistribution() {
+  let applied = 0;
+  DEFAULT_CATS.forEach(cat => {
+    if (!state.activeCategories.includes(cat.id)) return;
+    const val = pendingDistribution[cat.id];
+    if (val && val.trim()) {
+      const field = document.getElementById('obs-' + cat.id);
+      if (field) {
+        field.value = field.value ? field.value + '\n\n' + val.trim() : val.trim();
+        field.dispatchEvent(new Event('input'));
+        applied++;
+      }
+    }
+  });
+
+  // Reset alles
+  document.getElementById('distResult').style.display = 'none';
+  document.getElementById('transcriptBox').style.display = 'none';
+  pendingDistribution = {};
+  transcriptStack = [];
+  currentTranscript = '';
+
+  showToast(`✓ ${applied} categorie${applied !== 1 ? 'ën' : ''} ingevuld`);
+  document.getElementById('obsBlocks').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearMasterVoice() {
+  if (masterRecognition) { masterRecognition._stopped = true; masterRecognition.stop(); masterRecognition = null; }
+  transcriptStack = [];
+  currentTranscript = '';
+  pendingDistribution = {};
+  document.getElementById('transcriptBox').style.display = 'none';
+  document.getElementById('distResult').style.display = 'none';
+  document.getElementById('aiStatus').style.display = 'none';
+  const btn = document.getElementById('masterVoiceBtn');
+  btn.classList.remove('recording');
+  btn.querySelector('.master-btn-label').textContent = 'Inspreken';
+  document.getElementById('masterVoiceCard').classList.remove('recording-active');
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 2400);
+}
+
+// ── DRAG & DROP ──
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault();
+  zone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    document.getElementById('templateFile').files = e.dataTransfer.files;
+    handleFileUpload({ target: { files: [file] } });
+  }
+});
+</script>
+
+<style>
+@media print {
+  header, .steps, .btn-row, .btn, button, .color-config, .voice-btn { display: none !important; }
+  body { background: white; }
+  .app-wrapper { padding: 0; max-width: 100%; }
+  .card { box-shadow: none; border: 1px solid #e0e0e0; }
+  .page { display: block !important; }
+  #page1, #page2 { display: none !important; }
+  #page3 { display: block !important; }
+}
+</style>
+</body>
+</html>
