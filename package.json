@@ -1,13 +1,14 @@
 {
   "name": "scoutform-pro",
-  "version": "1.0.0",
-  "description": "AI-powered football scouting report platform",
+  "version": "2.0.0",
+  "description": "AI-powered football scouting report platform with player database",
   "scripts": {
     "dev": "vercel dev",
     "deploy": "vercel --prod"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
+    "@vercel/kv": "^1.0.0",
     "busboy": "^1.6.0"
   },
   "engines": {

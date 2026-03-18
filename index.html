@@ -788,6 +788,118 @@
   .dist-chip-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #15803d; }
   .dist-chip-text { font-size: 13px; color: var(--gray-800); line-height: 1.5; }
 
+  /* ── SPELERSDATABASE ── */
+  .db-toolbar {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap;
+  }
+  .db-search {
+    flex: 1; min-width: 180px;
+    padding: 9px 12px 9px 36px;
+    border: 1px solid var(--gray-200); border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239e9e9e' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;
+    outline: none; transition: border-color var(--transition);
+  }
+  .db-search:focus { border-color: var(--club-primary); }
+
+  .status-filter {
+    display: flex; gap: 4px;
+  }
+  .status-pill {
+    padding: 6px 12px; border-radius: 20px; border: 1px solid var(--gray-200);
+    font-size: 12px; font-weight: 600; cursor: pointer; background: white;
+    transition: all var(--transition); white-space: nowrap;
+  }
+  .status-pill.active { border-color: var(--club-primary); background: var(--club-primary); color: white; }
+  .status-pill.s-oppakken.active { border-color: #22c55e; background: #22c55e; }
+  .status-pill.s-volgen.active { border-color: #f59e0b; background: #f59e0b; }
+  .status-pill.s-afwijzen.active { border-color: #ef4444; background: #ef4444; }
+
+  .player-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;
+  }
+  .player-card {
+    background: white; border-radius: var(--radius-lg); border: 1px solid var(--gray-200);
+    padding: 1.25rem; cursor: pointer; transition: all var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .player-card:hover { border-color: var(--club-primary); box-shadow: var(--shadow); transform: translateY(-2px); }
+  .player-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--club-primary); transition: background var(--transition);
+  }
+  .player-card.s-oppakken::before { background: #22c55e; }
+  .player-card.s-volgen::before { background: #f59e0b; }
+  .player-card.s-afwijzen::before { background: #ef4444; }
+
+  .player-card-name { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 4px; }
+  .player-card-meta { font-size: 12px; color: var(--gray-400); margin-bottom: 10px; }
+  .player-card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+  .player-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 4px;
+    background: var(--gray-100); color: var(--gray-600); font-weight: 500;
+  }
+  .player-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 10px; border-top: 1px solid var(--gray-100);
+    font-size: 12px; color: var(--gray-400);
+  }
+  .status-badge {
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .status-badge.s-oppakken { background: #f0fdf4; color: #15803d; }
+  .status-badge.s-volgen { background: #fffbeb; color: #b45309; }
+  .status-badge.s-afwijzen { background: #fef2f2; color: #dc2626; }
+
+  .db-empty {
+    text-align: center; padding: 4rem 2rem; color: var(--gray-400);
+  }
+  .db-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+  .db-empty h3 { font-family: 'DM Serif Display', serif; color: var(--gray-600); margin-bottom: 0.5rem; }
+
+  /* Speler detail modal */
+  .player-modal { width: 640px; max-width: 95vw; max-height: 85vh; overflow-y: auto; }
+  .player-modal-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--gray-100);
+  }
+  .player-modal-name { font-family: 'DM Serif Display', serif; font-size: 1.4rem; }
+  .player-modal-meta { font-size: 13px; color: var(--gray-400); margin-top: 4px; }
+  .modal-close {
+    width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--gray-200);
+    background: white; cursor: pointer; font-size: 16px; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all var(--transition); color: var(--gray-600);
+  }
+  .modal-close:hover { background: var(--gray-100); }
+
+  .rapport-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+  .rapport-item {
+    border: 1px solid var(--gray-200); border-radius: var(--radius); overflow: hidden;
+  }
+  .rapport-item-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: var(--gray-50); cursor: pointer;
+    font-size: 13px;
+  }
+  .rapport-item-header:hover { background: var(--gray-100); }
+  .rapport-item-body { padding: 12px 14px; display: none; }
+  .rapport-item-body.open { display: block; }
+  .rapport-obs { margin-bottom: 10px; }
+  .rapport-obs-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-400); margin-bottom: 3px; }
+  .rapport-obs-text { font-size: 13px; color: var(--gray-800); line-height: 1.5; }
+
+  .compare-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--club-primary); color: white;
+    padding: 12px 2rem; display: none; align-items: center; justify-content: space-between;
+    z-index: 150; transition: background var(--transition);
+  }
+  .compare-bar.visible { display: flex; }
+  .compare-bar-left { font-size: 14px; font-weight: 500; }
+  .compare-bar-names { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+
   /* ── TOAST ── */
   .toast {
     position: fixed;
@@ -853,6 +965,13 @@
     <div class="step" id="step3" onclick="goToPage(3)">
       <div class="step-num">3</div>
       <span class="step-label">Voorbeeld & export</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step" id="step4" onclick="goToPage(4)">
+      <div class="step-num">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6H4v2h16V6zm0 4H4v2h16v-2zm0 4H4v2h16v-2z"/></svg>
+      </div>
+      <span class="step-label">Spelersdatabase</span>
     </div>
   </div>
 
@@ -1167,7 +1286,116 @@
     </div>
   </div>
 
+  <!-- PAGE 4: SPELERSDATABASE -->
+  <div class="page" id="page4">
+
+    <!-- Toolbar -->
+    <div class="db-toolbar">
+      <input type="text" class="db-search" id="dbSearch" placeholder="Zoek op naam, positie of club..." oninput="filterPlayers()">
+      <div class="status-filter">
+        <div class="status-pill active" data-status="alle" onclick="setStatusFilter('alle', this)">Alle</div>
+        <div class="status-pill s-oppakken" data-status="oppakken" onclick="setStatusFilter('oppakken', this)">✓ Oppakken</div>
+        <div class="status-pill s-volgen" data-status="volgen" onclick="setStatusFilter('volgen', this)">~ Volgen</div>
+        <div class="status-pill s-afwijzen" data-status="afwijzen" onclick="setStatusFilter('afwijzen', this)">✗ Afwijzen</div>
+      </div>
+      <button class="btn btn-secondary" style="font-size:13px;padding:8px 14px" onclick="loadPlayers()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Vernieuwen
+      </button>
+    </div>
+
+    <!-- Stats row -->
+    <div style="display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap">
+      <div class="card" style="flex:1;min-width:120px;padding:1rem;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--club-primary)" id="statTotaal">0</div>
+        <div style="font-size:12px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Spelers</div>
+      </div>
+      <div class="card" style="flex:1;min-width:120px;padding:1rem;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:1.8rem;color:#22c55e" id="statOppakken">0</div>
+        <div style="font-size:12px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Oppakken</div>
+      </div>
+      <div class="card" style="flex:1;min-width:120px;padding:1rem;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:1.8rem;color:#f59e0b" id="statVolgen">0</div>
+        <div style="font-size:12px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Volgen</div>
+      </div>
+      <div class="card" style="flex:1;min-width:120px;padding:1rem;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:1.8rem;color:#ef4444" id="statAfwijzen">0</div>
+        <div style="font-size:12px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Afwijzen</div>
+      </div>
+    </div>
+
+    <!-- Player grid -->
+    <div class="player-grid" id="playerGrid">
+      <div class="db-empty" style="grid-column:1/-1">
+        <div class="db-empty-icon">⚽</div>
+        <h3>Nog geen spelers in de database</h3>
+        <p>Spelers worden automatisch toegevoegd na het invullen van een rapport.</p>
+      </div>
+    </div>
+
+    <!-- Compare bar -->
+    <div class="compare-bar" id="compareBar">
+      <div class="compare-bar-left">
+        <div id="compareCount">0 spelers geselecteerd</div>
+        <div class="compare-bar-names" id="compareNames"></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;background:rgba(255,255,255,0.15);color:white;border-color:rgba(255,255,255,0.3)" onclick="clearCompare()">Wis selectie</button>
+        <button class="btn" style="font-size:13px;padding:7px 14px;background:white;color:var(--club-primary)" onclick="showComparison()" id="compareBtn" disabled>Vergelijk</button>
+      </div>
+    </div>
+  </div>
+
 </div><!-- end app-wrapper -->
+
+<!-- PLAYER DETAIL MODAL -->
+<div class="modal-overlay" id="playerModal">
+  <div class="modal player-modal">
+    <div class="player-modal-header">
+      <div>
+        <div class="player-modal-name" id="modalPlayerName">—</div>
+        <div class="player-modal-meta" id="modalPlayerMeta">—</div>
+      </div>
+      <button class="modal-close" onclick="closePlayerModal()">×</button>
+    </div>
+
+    <!-- Status & notities -->
+    <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap">
+      <select id="modalStatus" onchange="updatePlayerStatus()" style="font-size:13px;padding:7px 10px;border:1px solid var(--gray-200);border-radius:var(--radius);font-family:'DM Sans',sans-serif;flex:1">
+        <option value="oppakken">✓ Oppakken</option>
+        <option value="volgen">~ Volgen</option>
+        <option value="afwijzen">✗ Afwijzen</option>
+      </select>
+      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px" onclick="toggleComparePlayer()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Vergelijk
+      </button>
+      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;color:#ef4444" onclick="deleteCurrentPlayer()">Verwijder</button>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <label style="font-size:12px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Notities</label>
+      <textarea id="modalNotities" placeholder="Persoonlijke notities over deze speler..." style="width:100%;padding:9px 12px;border:1px solid var(--gray-200);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;min-height:70px;resize:vertical;outline:none" oninput="scheduleNotitiesSave()"></textarea>
+    </div>
+
+    <!-- Rapporten -->
+    <div>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-400);margin-bottom:8px" id="modalRapportLabel">Rapporten (0)</div>
+      <div class="rapport-list" id="modalRapportList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div class="modal-overlay" id="compareModal">
+  <div class="modal" style="width:90vw;max-width:900px;max-height:85vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.2rem">Spelers vergelijken</h3>
+      <button class="modal-close" onclick="document.getElementById('compareModal').classList.remove('open')">×</button>
+    </div>
+    <div id="compareContent"></div>
+  </div>
+</div>
 
 <!-- COLOR MODAL -->
 <div class="modal-overlay" id="colorModal">
@@ -1229,6 +1457,7 @@ function setTodayDate() {
 // ── NAVIGATION ──
 function goToPage(n) {
   if (n === 3 && state.page < 2) return;
+  if (n === 4 && state.page < 1) return;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page' + n).classList.add('active');
 
@@ -1239,6 +1468,9 @@ function goToPage(n) {
   });
   state.page = n;
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Laad database bij pagina 4
+  if (n === 4) loadPlayers();
 }
 
 // ── CATEGORIES ──
@@ -1533,6 +1765,9 @@ function buildPreview() {
   `;
 
   goToPage(3);
+
+  // Sla speler automatisch op in database
+  savePlayerFromReport();
 }
 
 // ── EXPORT ──
@@ -1833,8 +2068,356 @@ function clearMasterVoice() {
   document.getElementById('masterVoiceCard').classList.remove('recording-active');
 }
 
-// ── TOAST ──
-function showToast(msg) {
+
+// ── SPELERSDATABASE ──
+let allPlayers = [];
+let activeStatusFilter = 'alle';
+let compareSelection = [];
+let currentPlayerId = null;
+let notitiesTimer = null;
+
+async function loadPlayers() {
+  try {
+    const res = await fetch(`${API_BASE}/api/players`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    allPlayers = data.players || [];
+    updateStats();
+    renderPlayers();
+  } catch (err) {
+    console.error('Load players error:', err);
+    showToast('Database niet bereikbaar — controleer Vercel KV instelling');
+    renderEmptyState('Database niet bereikbaar. Vercel KV nog niet ingesteld?');
+  }
+}
+
+function updateStats() {
+  document.getElementById('statTotaal').textContent = allPlayers.length;
+  document.getElementById('statOppakken').textContent = allPlayers.filter(p => p.status === 'oppakken').length;
+  document.getElementById('statVolgen').textContent = allPlayers.filter(p => p.status === 'volgen').length;
+  document.getElementById('statAfwijzen').textContent = allPlayers.filter(p => p.status === 'afwijzen').length;
+}
+
+function filterPlayers() {
+  const q = document.getElementById('dbSearch').value.toLowerCase().trim();
+  let filtered = allPlayers;
+
+  if (activeStatusFilter !== 'alle') {
+    filtered = filtered.filter(p => p.status === activeStatusFilter);
+  }
+  if (q) {
+    filtered = filtered.filter(p =>
+      p.naam?.toLowerCase().includes(q) ||
+      p.positie?.toLowerCase().includes(q) ||
+      p.club?.toLowerCase().includes(q)
+    );
+  }
+  renderPlayers(filtered);
+}
+
+function setStatusFilter(status, el) {
+  activeStatusFilter = status;
+  document.querySelectorAll('.status-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  filterPlayers();
+}
+
+function renderPlayers(players) {
+  const list = players !== undefined ? players : allPlayers;
+  const grid = document.getElementById('playerGrid');
+
+  if (list.length === 0) {
+    renderEmptyState(allPlayers.length === 0
+      ? 'Nog geen spelers. Vul een rapport in om automatisch toe te voegen.'
+      : 'Geen spelers gevonden voor deze zoekopdracht.');
+    return;
+  }
+
+  grid.innerHTML = list.map(p => {
+    const inCompare = compareSelection.includes(p.id);
+    const leeftijd = p.geboortedatum ? berekenLeeftijd(p.geboortedatum) : null;
+    const lastRapport = p.rapporten?.[p.rapporten.length - 1];
+    const lastDate = lastRapport ? new Date(lastRapport.createdAt).toLocaleDateString('nl-NL') : '—';
+
+    return `
+      <div class="player-card s-${p.status} ${inCompare ? 'ring-2' : ''}"
+           style="${inCompare ? 'border-color:var(--club-primary);box-shadow:0 0 0 2px var(--club-primary)' : ''}"
+           onclick="openPlayerModal('${p.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="player-card-name">${p.naam}</div>
+          <span class="status-badge s-${p.status}">${statusLabel(p.status)}</span>
+        </div>
+        <div class="player-card-meta">${p.club || '—'} ${leeftijd ? '· ' + leeftijd + ' jaar' : ''}</div>
+        <div class="player-card-tags">
+          ${p.positie ? `<span class="player-tag">${p.positie}</span>` : ''}
+          ${p.nationaliteit ? `<span class="player-tag">${p.nationaliteit}</span>` : ''}
+        </div>
+        <div class="player-card-footer">
+          <span>${p.aantalRapporten || 0} rapport${p.aantalRapporten !== 1 ? 'en' : ''}</span>
+          <span>Laatste: ${lastDate}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderEmptyState(msg) {
+  document.getElementById('playerGrid').innerHTML = `
+    <div class="db-empty" style="grid-column:1/-1">
+      <div class="db-empty-icon">⚽</div>
+      <h3>Geen spelers</h3>
+      <p>${msg}</p>
+    </div>
+  `;
+}
+
+function statusLabel(s) {
+  if (s === 'oppakken') return '✓ Oppakken';
+  if (s === 'afwijzen') return '✗ Afwijzen';
+  return '~ Volgen';
+}
+
+function berekenLeeftijd(geb) {
+  if (!geb) return null;
+  const diff = Date.now() - new Date(geb).getTime();
+  return Math.floor(diff / (365.25 * 24 * 60 * 60 * 1000));
+}
+
+// ── SPELER OPSLAAN NA RAPPORT ──
+async function savePlayerFromReport() {
+  const naam = document.getElementById('spelNaam').value.trim();
+  if (!naam) return; // Geen naam = niet opslaan
+
+  const playerData = {
+    naam,
+    geboortedatum: document.getElementById('spelGeb').value,
+    positie: document.getElementById('spelPositie').value,
+    club: document.getElementById('spelClub').value,
+    nationaliteit: document.getElementById('spelNat').value,
+  };
+
+  // Bouw rapport op
+  const cats = state.extractedCats || DEFAULT_CATS;
+  const observaties = {};
+  cats.forEach(cat => {
+    const val = document.getElementById('obs-' + cat.id)?.value?.trim();
+    if (val) observaties[cat.label] = val;
+  });
+
+  const rapport = {
+    wedstrijd: {
+      datum: document.getElementById('wedDatum').value,
+      thuis: document.getElementById('wedThuis').value,
+      uit: document.getElementById('wedUit').value,
+      competitie: document.getElementById('wedComp').value,
+      stand: document.getElementById('wedStand').value,
+    },
+    scout: document.getElementById('wedScout').value || document.getElementById('coordNaam').value,
+    observaties,
+    verdict: state.verdict,
+    toelichting: document.getElementById('eindToelichting').value,
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/api/players`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ player: playerData, rapport })
+    });
+    const data = await res.json();
+    if (data.success) {
+      const actie = data.action === 'speler_aangemaakt' ? 'Speler toegevoegd aan database' : 'Rapport toegevoegd aan bestaand profiel';
+      showToast('✓ ' + actie);
+    }
+  } catch (err) {
+    console.error('Save player error:', err);
+    // Stil falen — rapport is al opgeslagen, database is secundair
+  }
+}
+
+// ── PLAYER MODAL ──
+async function openPlayerModal(id) {
+  currentPlayerId = id;
+  const player = allPlayers.find(p => p.id === id);
+  if (!player) return;
+
+  document.getElementById('modalPlayerName').textContent = player.naam;
+  const leeftijd = berekenLeeftijd(player.geboortedatum);
+  document.getElementById('modalPlayerMeta').textContent =
+    [player.positie, player.club, leeftijd ? leeftijd + ' jaar' : null, player.nationaliteit]
+    .filter(Boolean).join(' · ');
+
+  document.getElementById('modalStatus').value = player.status || 'volgen';
+  document.getElementById('modalNotities').value = player.notities || '';
+  document.getElementById('modalRapportLabel').textContent = `Rapporten (${player.rapporten?.length || 0})`;
+
+  // Render rapporten
+  const list = document.getElementById('modalRapportList');
+  if (!player.rapporten || player.rapporten.length === 0) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--gray-400)">Nog geen rapporten.</div>';
+  } else {
+    list.innerHTML = [...player.rapporten].reverse().map((r, i) => {
+      const datum = r.wedstrijd?.datum ? new Date(r.wedstrijd.datum).toLocaleDateString('nl-NL') : '—';
+      const wedstrijd = r.wedstrijd ? `${r.wedstrijd.thuis || '?'} vs ${r.wedstrijd.uit || '?'}` : '—';
+      const obsHTML = Object.entries(r.observaties || {}).map(([label, text]) => `
+        <div class="rapport-obs">
+          <div class="rapport-obs-label">${label}</div>
+          <div class="rapport-obs-text">${text}</div>
+        </div>
+      `).join('');
+
+      return `
+        <div class="rapport-item">
+          <div class="rapport-item-header" onclick="this.nextElementSibling.classList.toggle('open')">
+            <div>
+              <strong>${datum}</strong> · ${wedstrijd}
+              ${r.verdict ? `<span style="margin-left:8px;font-size:11px;font-weight:700;color:var(--gray-400)">${r.verdict}</span>` : ''}
+            </div>
+            <span style="color:var(--gray-400);font-size:11px">Scout: ${r.scout || '—'}</span>
+          </div>
+          <div class="rapport-item-body">
+            ${obsHTML || '<div style="font-size:13px;color:var(--gray-400)">Geen observaties.</div>'}
+            ${r.toelichting ? `<div class="rapport-obs"><div class="rapport-obs-label">Eindoordeel toelichting</div><div class="rapport-obs-text">${r.toelichting}</div></div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('playerModal').classList.add('open');
+}
+
+function closePlayerModal() {
+  document.getElementById('playerModal').classList.remove('open');
+  currentPlayerId = null;
+}
+
+async function updatePlayerStatus() {
+  if (!currentPlayerId) return;
+  const status = document.getElementById('modalStatus').value;
+  try {
+    await fetch(`${API_BASE}/api/players`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: currentPlayerId, status })
+    });
+    const p = allPlayers.find(p => p.id === currentPlayerId);
+    if (p) p.status = status;
+    updateStats();
+    renderPlayers();
+    showToast('Status bijgewerkt');
+  } catch(err) { console.error(err); }
+}
+
+function scheduleNotitiesSave() {
+  clearTimeout(notitiesTimer);
+  notitiesTimer = setTimeout(saveNotities, 1200);
+}
+
+async function saveNotities() {
+  if (!currentPlayerId) return;
+  const notities = document.getElementById('modalNotities').value;
+  try {
+    await fetch(`${API_BASE}/api/players`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: currentPlayerId, notities })
+    });
+    const p = allPlayers.find(p => p.id === currentPlayerId);
+    if (p) p.notities = notities;
+  } catch(err) { console.error(err); }
+}
+
+async function deleteCurrentPlayer() {
+  if (!currentPlayerId) return;
+  if (!confirm('Speler en alle rapporten verwijderen?')) return;
+  try {
+    await fetch(`${API_BASE}/api/players?id=${currentPlayerId}`, { method: 'DELETE' });
+    allPlayers = allPlayers.filter(p => p.id !== currentPlayerId);
+    closePlayerModal();
+    updateStats();
+    renderPlayers();
+    showToast('Speler verwijderd');
+  } catch(err) { console.error(err); }
+}
+
+// ── VERGELIJKEN ──
+function toggleComparePlayer() {
+  if (!currentPlayerId) return;
+  const idx = compareSelection.indexOf(currentPlayerId);
+  if (idx === -1) {
+    if (compareSelection.length >= 3) { showToast('Max 3 spelers vergelijken'); return; }
+    compareSelection.push(currentPlayerId);
+  } else {
+    compareSelection.splice(idx, 1);
+  }
+  updateCompareBar();
+  renderPlayers();
+  closePlayerModal();
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById('compareBar');
+  const btn = document.getElementById('compareBtn');
+  bar.classList.toggle('visible', compareSelection.length > 0);
+  document.getElementById('compareCount').textContent = `${compareSelection.length} speler${compareSelection.length !== 1 ? 's' : ''} geselecteerd`;
+  const names = compareSelection.map(id => allPlayers.find(p => p.id === id)?.naam || id);
+  document.getElementById('compareNames').textContent = names.join(' · ');
+  btn.disabled = compareSelection.length < 2;
+}
+
+function clearCompare() {
+  compareSelection = [];
+  updateCompareBar();
+  renderPlayers();
+}
+
+function showComparison() {
+  const players = compareSelection.map(id => allPlayers.find(p => p.id === id)).filter(Boolean);
+  if (players.length < 2) return;
+
+  // Verzamel alle categorieën
+  const allCats = new Set();
+  players.forEach(p => p.rapporten?.forEach(r => Object.keys(r.observaties || {}).forEach(k => allCats.add(k))));
+
+  const html = `
+    <div style="display:grid;grid-template-columns:repeat(${players.length},1fr);gap:1rem">
+      ${players.map(p => `
+        <div>
+          <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:4px">${p.naam}</div>
+          <div style="font-size:12px;color:var(--gray-400);margin-bottom:10px">${p.positie || '—'} · ${p.club || '—'}</div>
+          <span class="status-badge s-${p.status}">${statusLabel(p.status)}</span>
+          <div style="margin-top:12px;font-size:12px;color:var(--gray-400)">${p.aantalRapporten} rapport${p.aantalRapporten !== 1 ? 'en' : ''}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top:1.5rem">
+      ${[...allCats].map(cat => `
+        <div style="margin-bottom:1rem">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-400);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--gray-100)">${cat}</div>
+          <div style="display:grid;grid-template-columns:repeat(${players.length},1fr);gap:1rem">
+            ${players.map(p => {
+              const teksten = (p.rapporten || []).map(r => r.observaties?.[cat]).filter(Boolean);
+              return `<div style="font-size:13px;color:var(--gray-800);line-height:1.5">${teksten.join(' | ') || '<span style="color:var(--gray-300)">—</span>'}</div>`;
+            }).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  document.getElementById('compareContent').innerHTML = html;
+  document.getElementById('compareModal').classList.add('open');
+}
+
+// Sluit modals bij klik buiten
+document.getElementById('playerModal').addEventListener('click', function(e) {
+  if (e.target === this) closePlayerModal();
+});
+document.getElementById('compareModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('visible');
